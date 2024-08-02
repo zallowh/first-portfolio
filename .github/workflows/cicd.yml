@@ -1,0 +1,10 @@
+name: CICD
+
+on:
+  push:
+    branches:
+    -elastic-beanstalk-ec2
+
+jobs:
+  build-and-deploy:
+    runs-on: [ linux ]
