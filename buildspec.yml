@@ -11,6 +11,7 @@ phases:
       - cd ../client
       - echo Installing dependencies for client...
       - npm install
+
   build:
     commands:
       - echo Building the client application...
@@ -19,16 +20,19 @@ phases:
       - ls -la build
       - cd ..
       - mkdir -p server/public
+
   post_build:
     commands:
       - echo Copying build files to server/public...
       - cp -r client/build/* server/public
       - echo Files copied successfully.
+
   finalize:
     commands:
       - echo Starting the server...
       - cd server
       - npm run dev
+
 artifacts:
   files:
     - '**/*'
