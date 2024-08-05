@@ -3,25 +3,32 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 16
     commands:
-      - echo Installing server dependencies...
+      - echo Installing dependencies for server...
       - cd server
       - npm install
-      - echo Installing client dependencies...
       - cd ../client
+      - echo Installing dependencies for client...
       - npm install
   build:
     commands:
-      - echo Building client...
+      - echo Building the client application...
       - npm run build
-      - echo Moving client build to server...
-      - cp -r build/* ../server/public
+      - echo Build complete. Listing build directory contents:
+      - ls -la build
+      - cd ..
+      - mkdir -p server/public
   post_build:
     commands:
-      - echo Zipping the application for deployment...
-      - cd ..
-      - zip -r deploy.zip server/*
+      - echo Copying build files to server/public...
+      - cp -r client/build/* server/public
+      - echo Files copied successfully.
+  finalize:
+    commands:
+      - echo Starting the server...
+      - cd server
+      - npm run dev
 artifacts:
   files:
-    - deploy.zip
+    - '**/*'
