@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo Installing server dependencies...
+      - cd server
+      - npm install
+      - echo Installing client dependencies...
+      - cd ../client
+      - npm install
+  build:
+    commands:
+      - echo Building client...
+      - npm run build
+      - echo Moving client build to server...
+      - cp -r build/* ../server/public
+  post_build:
+    commands:
+      - echo Zipping the application for deployment...
+      - cd ..
+      - zip -r deploy.zip server/*
+artifacts:
+  files:
+    - deploy.zip
