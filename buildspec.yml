@@ -14,7 +14,7 @@ phases:
       - cd client && npm start
       - echo Building the backend...
       # Normally, you don't need to build the backend, so this is optional
-      - cd ../server && npm run build  # Uncomment if needed for server
+      - cd ../server && npm run dev  # Uncomment if needed for server
   post_build:
     commands:
       - echo Preparing deployment artifacts...
