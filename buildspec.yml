@@ -3,36 +3,26 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 20
     commands:
-      - echo Installing dependencies for server...
-      - cd server
-      - npm install
-      - cd ../client
-      - echo Installing dependencies for client...
-      - npm install
-
+      - echo Installing dependencies...
+      - cd client && npm install
+      - cd ../server && npm install
   build:
     commands:
-      - echo Building the client application...
-      - npm run build
-      - echo Build complete. Listing build directory contents:
-      - ls -la build
-      - cd ..
-      - mkdir -p server/public
-
+      - echo Building the frontend...
+      - cd client && npm run build
+      - echo Building the backend...
+      # Normally, you don't need to build the backend, so this is optional
+      # - cd ../server && npm run build  # Uncomment if needed for server
   post_build:
     commands:
-      - echo Copying build files to server/public...
-      - cp -r client/build/* server/public
-      - echo Files copied successfully.
-
-  finalize:
-    commands:
-      - echo Starting the server...
-      - cd server
-      - npm run dev
-
+      - echo Preparing deployment artifacts...
+      - mkdir -p ../output/client
+      - cp -r client/build/* ../output/client/
+      - mkdir -p ../output/server
+      - cp -r server/* ../output/server/
 artifacts:
   files:
     - '**/*'
+  base-directory: '../output'
